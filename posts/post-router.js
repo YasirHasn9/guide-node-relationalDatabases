@@ -61,6 +61,15 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", (req, res) => {});
+router.delete("/:id", async (req, res, next) => {
+  try {
+    await db("posts")
+      .where({ id: req.params.id })
+      .del();
+    res.status(200).end();
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;

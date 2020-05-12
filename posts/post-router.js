@@ -1,28 +1,25 @@
-const express = require('express');
+const express = require("express");
 
 // database access using knex
-const db = require('../data/db-config.js');
+const db = require("../data/db-config.js");
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-
+router.get("/", async (req, res, next) => {
+  try {
+    const posts = await db("posts").select("*");
+    res.json(posts);
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.get('/:id', (req, res) => {
+router.get("/:id", (req, res) => {});
 
-});
+router.post("/", (req, res) => {});
 
-router.post('/', (req, res) => {
+router.put("/:id", (req, res) => {});
 
-});
-
-router.put('/:id', (req, res) => {
-
-});
-
-router.delete('/:id', (req, res) => {
-
-});
+router.delete("/:id", (req, res) => {});
 
 module.exports = router;

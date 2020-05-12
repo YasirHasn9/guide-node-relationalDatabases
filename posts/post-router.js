@@ -29,7 +29,21 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", (req, res) => {});
+router.post("/", async (req, res, next) => {
+  try {
+    const [id] = await db("posts").insert(req.body);
+    const post = await db("posts")
+      .where({ id })
+      .first();
+    if (post) {
+      res.status(201).json({ newPost: post });
+    } else {
+      res.status(400).json({ message: "Columns should be filled" });
+    }
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.put("/:id", (req, res) => {});
 

@@ -14,7 +14,20 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", (req, res) => {});
+router.get("/:id", async (req, res, next) => {
+  try {
+    const post = await db("posts")
+      .select("*")
+      .where({ id: req.params.id });
+    if (post) {
+      res.json(post);
+    } else {
+      res.status(500).json({ message: "Not found" });
+    }
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.post("/", (req, res) => {});
 

@@ -17,8 +17,8 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const post = await db("posts")
-      .select("*")
-      .where({ id: req.params.id });
+      .where({ id: req.params.id })
+      .first();
     if (post) {
       res.json(post);
     } else {
